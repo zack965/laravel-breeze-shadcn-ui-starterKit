@@ -19,7 +19,7 @@ import { Errors } from '@/types/HttpErrorTypes';
 
 function RegisterForm() {
     const router = useRouter()
-    const { login } = useAuth({
+    const { register } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard',
     })
@@ -70,13 +70,15 @@ function RegisterForm() {
 
     function onSubmit(data: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        login({
+        register({
+            name: data.name,
             email: data.email,
             password: data.password,
-            remember: shouldRemember,
+            password_confirmation: data.password,
             setErrors,
-            setStatus,
         })
+
+
         setIsLoading(false);
 
     }
@@ -85,6 +87,21 @@ function RegisterForm() {
             <form onSubmit={form.handleSubmit(onSubmit)}>
 
                 <div className="grid gap-4 ">
+                    <FormField
+
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel className=''>Email</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="....." className='' {...field} />
+                                </FormControl>
+                                <InputError messages={errors?.name} className="mt-2" />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
 
                         control={form.control}
@@ -117,6 +134,8 @@ function RegisterForm() {
                                 <FormControl>
                                     <PasswordInput placeholder="********" className='' {...field} />
                                 </FormControl>
+                                <InputError messages={errors?.password} className="mt-2" />
+
                                 <FormMessage />
                             </FormItem>
                         )}

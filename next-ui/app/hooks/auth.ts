@@ -3,12 +3,13 @@ import useSWR from 'swr'
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import ApiClient from '../Api/ApiClient'
+import { User } from '@/types/types'
 
-export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
+export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: string; redirectIfAuthenticated?: string } = {}) => {
     const router = useRouter()
     const params = useParams()
 
-    const { data: user, error, mutate } = useSWR('/api/user', () =>
+    const { data: user, error, mutate } = useSWR<User>('/api/user', () =>
         ApiClient
             .get('/api/user')
             .then(res => res.data)
@@ -107,7 +108,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             window.location.pathname === '/verify-email' &&
             user?.email_verified_at
         )
-            router.push(redirectIfAuthenticated)
+            router.push(redirectIfAuthenticated || "")
         if (middleware === 'auth' && error) logout()
     }, [user, error])
 
@@ -121,3 +122,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         logout,
     }
 }
+
+
+/* const { user } = useAuth({ middleware: 'auth' })
+
+*/
