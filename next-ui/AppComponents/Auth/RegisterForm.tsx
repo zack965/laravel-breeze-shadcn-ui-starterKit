@@ -7,12 +7,12 @@ import { z } from "zod";
 import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import ApiClient from '@/app/Api/ApiClient'
+import ApiClient from '@/Api/ApiClient'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { PasswordInput } from '@/components/costom/password-input'
 import { Button } from '@/components/costom/button';
 
-import { useAuth } from '@/app/hooks/auth';
+import { useAuth } from '@/hooks/auth';
 import { useRouter } from 'next/navigation'
 import InputError from '@/components/costom/InputError';
 import { Errors } from '@/types/HttpErrorTypes';
@@ -123,13 +123,8 @@ function RegisterForm() {
                         render={({ field }) => (
                             <FormItem className="space-y-1">
                                 <div className="flex items-center justify-between">
-                                    <FormLabel>password </FormLabel>
-                                    <Link
-                                        href="/forgot-password"
-                                        className="text-sm font-medium text-muted-foreground hover:opacity-75"
-                                    >
-                                        forget password ?
-                                    </Link>
+                                    <FormLabel className='py-2'>password </FormLabel>
+
                                 </div>
                                 <FormControl>
                                     <PasswordInput placeholder="********" className='' {...field} />
@@ -141,7 +136,7 @@ function RegisterForm() {
                         )}
                     />
                     <Button type="submit" className="w-full" loading={isLoading}>
-                        Login
+                        Register
                     </Button>
 
                 </div>

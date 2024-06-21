@@ -1,13 +1,22 @@
 import useSWR from 'swr'
 
-import { useEffect } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import ApiClient from '../Api/ApiClient'
 import { User } from '@/types/types'
+import { useToast } from '@/components/ui/use-toast'
+import ApiClient from '@/Api/ApiClient'
+import { Errors } from '@/types/HttpErrorTypes'
+interface ErrorStateType {
+    setErrors: (errors: Errors | null) => void;
+}
+interface StatusStateType {
+    setStatus: (errors: string | null) => void;
+}
 
 export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: string; redirectIfAuthenticated?: string } = {}) => {
     const router = useRouter()
     const params = useParams()
+    const { toast } = useToast()
 
     const { data: user, error, mutate } = useSWR<User>('/api/user', () =>
         ApiClient
@@ -22,10 +31,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: 
 
     const csrf = () => ApiClient.get('/sanctum/csrf-cookie')
 
-    const register = async ({ setErrors, ...props }) => {
+    const register = async ({ setErrors, ...props }: ErrorStateType & {
+        name: string,
+        email: string,
+        password: string,
+        password_confirmation: string,
+    }) => {
         await csrf()
 
-        setErrors([])
+        setErrors(null)
 
         ApiClient
             .post('/register', props)
@@ -37,11 +51,17 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: 
             })
     }
 
-    const login = async ({ setErrors, setStatus, ...props }) => {
+    const login = async ({ setErrors, setStatus, ...props }: {
+        setErrors: Dispatch<SetStateAction<Errors | null>>;
+        setStatus: Dispatch<SetStateAction<string>>;
+        email: string;
+        password: string;
+        remember: boolean;
+    }) => {
         await csrf()
 
-        setErrors([])
-        setStatus(null)
+        setErrors(null)
+        setStatus("")
 
         ApiClient
             .post('/login', props)
@@ -53,15 +73,25 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: 
             })
     }
 
-    const forgotPassword = async ({ setErrors, setStatus, email }) => {
+    const forgotPassword = async ({ setErrors, setStatus, email }: {
+        setErrors: Dispatch<SetStateAction<Errors | null>>;
+        setStatus: Dispatch<SetStateAction<string>>;
+        email: string
+    }) => {
         await csrf()
 
-        setErrors([])
-        setStatus(null)
+        setErrors(null)
+        setStatus("")
 
         ApiClient
             .post('/forgot-password', { email })
-            .then(response => setStatus(response.data.status))
+            .then(response => {
+                toast({
+                    title: "you did receive en email with reset link",
+
+                })
+                setStatus(response.data.status)
+            })
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
@@ -69,11 +99,17 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: 
             })
     }
 
-    const resetPassword = async ({ setErrors, setStatus, ...props }) => {
+    const resetPassword = async ({ setErrors, setStatus, ...props }: {
+        email: string;
+        password: string;
+        password_confirmation: string;
+        setErrors: Dispatch<SetStateAction<Errors | null>>;
+        setStatus: Dispatch<SetStateAction<string>>;
+    }) => {
         await csrf()
 
-        setErrors([])
-        setStatus(null)
+        setErrors(null)
+        setStatus("")
 
         ApiClient
             .post('/reset-password', { token: params.token, ...props })
@@ -87,9 +123,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: { middleware?: 
             })
     }
 
-    const resendEmailVerification = ({ setStatus }) => {
+    const resendEmailVerification = ({ setStatus }: {
+        setStatus: Dispatch<SetStateAction<string>>;
+    }) => {
         ApiClient
-            .post('/email/verification-notification')
+            .post<{ status: string; }>('/email/verification-notification')
             .then(response => setStatus(response.data.status))
     }
 

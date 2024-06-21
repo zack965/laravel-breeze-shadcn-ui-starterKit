@@ -1,23 +1,23 @@
 
+import ForgetPasswordForm from "@/AppComponents/Auth/ForgetPasswordForm"
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-
-import { useRouter } from 'next/navigation'
-import LoginForm from '../../AppComponents/Auth/LoginForm'
-
-export default function Page() {
-
+const Page = () => {
+    /*  
+     const [email, setEmail] = useState('')
+     const [errors, setErrors] = useState<Errors | null>(null)
+     const [status, setStatus] = useState<null | string>(null)
+ 
+     const submitForm = (event: FormEvent) => {
+         event.preventDefault()
+ 
+         forgotPassword({ email, setErrors, setStatus })
+     } */
     return (
         <div className="w-full lg:grid  lg:grid-cols-2 min-h-screen">
             <div className="flex items-center justify-center py-12">
                 <div className="mx-auto grid w-3/5 gap-6">
                     <div className="grid gap-2 text-center">
-                        <h1 className="text-3xl font-bold">Login</h1>
+                        <h1 className="text-3xl font-bold">Forget password</h1>
                         <p className="text-balance text-muted-foreground">
                             ....
                         </p>
@@ -51,26 +51,36 @@ export default function Page() {
                             Login with Google
                         </Button>
                     </div> */}
-                    <LoginForm />
-                    <div className="mt-4 text-center text-sm">
+                    <ForgetPasswordForm />
+                    {/*  <LoginForm /> */}
+                    {/*   <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
-                        <Link href="/register" className="underline">
+                        <Link href="#" className="underline">
                             Sign up
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="hidden bg-muted lg:block">
-                <Image
+                {/*   <Image
                     src="/placeholder.svg"
                     alt="Image"
                     width="1920"
                     height="1080"
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                />
+                /> */}
+                <div className="mb-4 w-full flex justify-center items-center h-screen text-gray-600">
+                    <p className="mx-10 text-lg">
+                        Forgot your password? No problem. Just let us know your email
+                        address and we will email you a password reset link that
+                        will allow you to choose a new one.
+                    </p>
+                </div>
+
             </div>
         </div>
     )
+
 }
 
-
+export default Page

@@ -1,4 +1,4 @@
-type DataRequestLogin = "email" | "password" | "name";
+type DataRequestLogin = "email" | "password" | "name" | "password_confirmation";
 
 type ErrorsType = {
     [key in DataRequestLogin]: string[];

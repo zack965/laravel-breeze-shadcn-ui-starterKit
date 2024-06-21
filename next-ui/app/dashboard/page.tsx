@@ -25,7 +25,16 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
     Table,
     TableBody,
@@ -35,8 +44,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import HeaderDashboard from "@/AppComponents/Dashboard/HeaderDashboard"
-
-export default function page() {
+{/*   */ }
+export default function Page() {
     return (
         <div className="flex min-h-screen w-full flex-col">
             <HeaderDashboard />

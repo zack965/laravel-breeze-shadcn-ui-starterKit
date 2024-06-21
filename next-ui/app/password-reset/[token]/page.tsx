@@ -6,9 +6,8 @@ import { Label } from '@/components/ui/label'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-
 import { useRouter } from 'next/navigation'
-import LoginForm from '../../AppComponents/Auth/LoginForm'
+import PasswordResetForm from '@/AppComponents/Auth/PasswordResetForm'
 
 export default function Page() {
 
@@ -17,7 +16,7 @@ export default function Page() {
             <div className="flex items-center justify-center py-12">
                 <div className="mx-auto grid w-3/5 gap-6">
                     <div className="grid gap-2 text-center">
-                        <h1 className="text-3xl font-bold">Login</h1>
+                        <h1 className="text-3xl font-bold">Reset password</h1>
                         <p className="text-balance text-muted-foreground">
                             ....
                         </p>
@@ -51,13 +50,8 @@ export default function Page() {
                             Login with Google
                         </Button>
                     </div> */}
-                    <LoginForm />
-                    <div className="mt-4 text-center text-sm">
-                        Don&apos;t have an account?{" "}
-                        <Link href="/register" className="underline">
-                            Sign up
-                        </Link>
-                    </div>
+                    <PasswordResetForm />
+
                 </div>
             </div>
             <div className="hidden bg-muted lg:block">

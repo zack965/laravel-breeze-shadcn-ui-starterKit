@@ -7,15 +7,16 @@ import { z } from "zod";
 import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import ApiClient from '@/app/Api/ApiClient'
+import ApiClient from '@/Api/ApiClient'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { PasswordInput } from '@/components/costom/password-input'
 import { Button } from '@/components/costom/button';
 
-import { useAuth } from '@/app/hooks/auth';
+/* import { useAuth } from '@/app/hooks/auth'; */
 import { useRouter } from 'next/navigation'
 import InputError from '@/components/costom/InputError';
 import { Errors } from '@/types/HttpErrorTypes';
+import { useAuth } from '@/hooks/auth';
 
 function LoginForm() {
     const router = useRouter()
@@ -47,7 +48,7 @@ function LoginForm() {
         },
     });
     const [shouldRemember, setShouldRemember] = useState(false)
-    const [status, setStatus] = useState(null)
+    const [status, setStatus] = useState("")
 
     const [errors, setErrors] = useState<Errors | null>(null)
     /*  useEffect(() => {
